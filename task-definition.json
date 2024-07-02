@@ -1,0 +1,89 @@
+{
+    "family": "php-mongo-task",
+    "executionRoleArn":"arn:aws:iam::743466557782:role/sample-test-ecs",
+    "networkMode": "awsvpc",
+    "containerDefinitions": [
+        {
+            "name": "php-container",
+            "image": "743466557782.dkr.ecr.ap-south-1.amazonaws.com/my-php:3.0",
+            "essential": true,
+            "memory": 512,
+            "cpu": 256,
+            "portMappings": [
+                {
+                    "containerPort": 80,
+                    "hostPort": 80,
+                    "protocol": "tcp"
+                }
+            ],
+            "environment": [
+                {
+                        "name":"MONGODB_USER",
+                        "value":"selva"
+                },
+                
+                {
+                        "name":"MONGODB_PASS",
+                        "value":"selva123"
+                },
+		{
+			"name":"MONGODB_HOST",
+			"value":"localhost"
+		},
+		{
+			"name":"MONGODB_PORT",
+			"value":"27017"
+		},
+		{
+			"name": "MEMCACHED_HOST",
+			"value": "localhost"
+		},
+		{
+			"name": "MEMCACHED_PORT",
+			"value": "11211"
+		}
+             ]
+	},
+       {
+            "name": "mongodb",
+            "image": "mongo:latest",
+            "essential": true,
+            "memory": 512,
+            "cpu": 256,
+            "portMappings": [
+                {
+                    "containerPort": 27017,
+                    "hostPort": 27017,
+                    "protocol": "tcp"
+                }
+            ],
+           "environment": [
+                {
+                        "name":"MONGO_INITDB_ROOT_USERNAME",
+                        "value":"selva"
+                },
+                
+                {
+                        "name":"MONGO_INITDB_ROOT_PASSWORD",
+                        "value":"selva123"
+                }
+             ]
+        },
+	{
+		"name":"memcached",
+		"image":"memcached:latest",
+		"portMappings": [
+			{
+				"containerPort": 11211,
+				"hostPort": 11211,
+				"protocol": "tcp"
+			}
+		]
+	}
+    ],
+    "requiresCompatibilities": [
+        "FARGATE"
+    ],
+    "cpu": "512",
+    "memory": "1024"
+}
